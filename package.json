@@ -1,39 +1,58 @@
 {
   "name": "quicksort-ranker",
-  "version": "1.0.0",
-  "description": "Web UI for rankings lists using the quicksort algorithm",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "start-prod": "node dist/index.js",
-    "start": "nodemon",
-    "pretest": "npm run clean",
-    "test": "jest --detectOpenHandles",
-    "pretest-ci": "npm run clean",
-    "test-ci": "jest --coverage",
-    "lint": "eslint src/ --ext .js,.jsx,.ts,.tsx",
-    "clean": "rm -rf dist build"
-  },
+  "version": "0.1.0",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ikenley/quicksort-ranker.git"
   },
-  "keywords": [
-    "quicksort"
-  ],
   "author": "ikenley",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
     "url": "https://github.com/ikenley/quicksort-ranker/issues"
   },
-  "homepage": "https://github.com/ikenley/quicksort-ranker#readme",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "pretest": "npm run clean",
+    "test": "react-scripts test",
+    "pretest-ci": "npm run clean",
+    "test-ci": "jest --coverage",
+    "eject": "react-scripts eject",
+    "clean": "rm -rf dist build"
+  },
+  "dependencies": {
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "web-vitals": "^2.1.4"
+  },
   "devDependencies": {
-    "@types/jest": "^29.4.0",
-    "eslint": "^8.34.0",
-    "jest": "^29.4.3",
-    "nodemon": "^2.0.20",
-    "ts-jest": "^29.0.5",
-    "ts-node": "^10.9.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.12",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "react-scripts": "5.0.1",
     "typescript": "^4.9.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
