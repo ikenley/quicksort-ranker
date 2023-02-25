@@ -1,38 +1,65 @@
+import { Comparison, PromptComparisonType } from "../types";
+
 /** Service which implements quicksort algorithm.
  * See https://en.wikipedia.org/wiki/Quicksort
  */
 export default class QuickSortService {
-  public sort(array: number[]) {
+  public async sort(
+    array: string[],
+    promptComparison: PromptComparisonType,
+    complete: (list: string[]) => void
+  ) {
     console.log(`array=${JSON.stringify(array)}`);
-    this.quicksort(array, 0, array.length - 1);
+    await this.quicksort(array, promptComparison, 0, array.length - 1);
+    complete(array);
   }
 
   /** Recursive quicksort */
-  private quicksort(array: number[], low: number, high: number) {
+  private async quicksort(
+    array: string[],
+    promptComparison: PromptComparisonType,
+    low: number,
+    high: number
+  ) {
     // Null condition- Return when endpoints cross
     if (low >= high || low < 0) {
       return;
     }
 
-    const pivotIndex = this.partition(array, low, high);
+    const pivotIndex = await this.partition(array, promptComparison, low, high);
 
     // Make recursive calls on each side of the pivot
-    this.quicksort(array, low, pivotIndex - 1); // Left side of pivot
-    this.quicksort(array, pivotIndex + 1, high); // Right side of pivot
+    await this.quicksort(array, promptComparison, low, pivotIndex - 1); // Left side of pivot
+    await this.quicksort(array, promptComparison, pivotIndex + 1, high); // Right side of pivot
   }
 
   /** Divide array into two partitions.
    * One partition contains elements less than or equal to the pivot.
    * The other partition contains elements greater than the pivot.
    */
-  private partition(array: number[], low: number, high: number) {
+  private async partition(
+    array: string[],
+    promptComparison: PromptComparisonType,
+    low: number,
+    high: number
+  ) {
     // Choose a random pivot value
     this.selectPivot(array, low, high);
     const pivotValue = array[high];
     let pivotIndex = low;
 
     for (let i = low; i < high; i++) {
-      if (array[i] <= pivotValue) {
+      const comparison: Comparison = {
+        comparisonValue: array[i],
+        pivotValue,
+        array,
+        low,
+        high,
+        pivotIndex,
+      };
+      const comparisonResult = await promptComparison(comparison);
+      // If comparisonValue is less thann pivotValue, swap
+      if (comparisonResult <= 0) {
         this.swap(array, pivotIndex, i);
         pivotIndex++;
       }
@@ -43,13 +70,13 @@ export default class QuickSortService {
   }
 
   /** Randomly selects the pivot and swaps it to first position */
-  private selectPivot(array: number[], low: number, high: number) {
+  private selectPivot(array: string[], low: number, high: number) {
     const partitionIndex = Math.floor(Math.random() * (high - low + 1) + low);
     this.swap(array, high, partitionIndex);
   }
 
   /* Swap two indexes in an array */
-  private swap(array: number[], x: number, y: number) {
+  private swap(array: string[], x: number, y: number) {
     const temp = array[x];
     array[x] = array[y];
     array[y] = temp;
