@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/quicksort-ranker/static/css/main.0407cbcf.css",
-    "main.js": "/quicksort-ranker/static/js/main.202c3757.js",
+    "main.js": "/quicksort-ranker/static/js/main.eb2fc3a9.js",
     "index.html": "/quicksort-ranker/index.html",
     "main.0407cbcf.css.map": "/quicksort-ranker/static/css/main.0407cbcf.css.map",
-    "main.202c3757.js.map": "/quicksort-ranker/static/js/main.202c3757.js.map"
+    "main.eb2fc3a9.js.map": "/quicksort-ranker/static/js/main.eb2fc3a9.js.map"
   },
   "entrypoints": [
     "static/css/main.0407cbcf.css",
-    "static/js/main.202c3757.js"
+    "static/js/main.eb2fc3a9.js"
   ]
 }
