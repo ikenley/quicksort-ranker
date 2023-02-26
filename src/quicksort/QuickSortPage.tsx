@@ -1,20 +1,24 @@
 import { useEffect, useState, useCallback, useRef } from "react";
-import { Comparison, defaultComparison } from "../types";
+import { Comparison, defaultComparison, ViewMode } from "../types";
+import Navbar from "../shared/Navbar";
+import getViewMode from "./getViewMode";
 import QuicksortService from "./QuicksortService";
-import ComparisonPanel from "./PrompStatePanel";
+import EntryPanel from "./EntryPanel";
+import ComparisonPanel from "./ComparisonPanel";
+import ResultPanel from "./ResultPanel";
 
 const quicksortService = new QuicksortService();
 const originalArray = [
   "All Quiet on the Western Front",
   "Avatar: The Way of Water",
   "The Banshees of Inisherin",
-  "Elvis",
-  "Everything Everywhere All at Once",
-  "The Fabelmans",
-  "Tár",
-  "Top Gun: Maverick",
-  "Triangle of Sadness",
-  "Women Talking",
+  //   "Elvis",
+  //   "Everything Everywhere All at Once",
+  //   "The Fabelmans",
+  //   "Tár",
+  //   "Top Gun: Maverick",
+  //   "Triangle of Sadness",
+  //   "Women Talking",
 ];
 
 const QuicksortPage = () => {
@@ -50,27 +54,20 @@ const QuicksortPage = () => {
     quicksortService.sort(originalArray, promptComparison, complete);
   }, [promptComparison, complete]);
 
+  const viewMode = getViewMode(originalArray, finalList);
+
   return (
     <div className="quicksort-page">
-      <div className="comparison-panel">
-        <button
-          onClick={() => {
-            handleClick(false);
-          }}
-        >
-          {comparison.comparisonValue}
-        </button>
-        vs
-        <button
-          onClick={() => {
-            handleClick(true);
-          }}
-        >
-          {comparison.pivotValue}
-        </button>
+      <Navbar />
+      <div className="container">
+        {viewMode === ViewMode.Entry ? (
+          <EntryPanel />
+        ) : viewMode === ViewMode.Comparison ? (
+          <ComparisonPanel comparison={comparison} handleClick={handleClick} />
+        ) : (
+          <ResultPanel finalList={finalList} />
+        )}
       </div>
-      <ComparisonPanel comparison={comparison} />
-      {finalList.length > 0 ? <div>{JSON.stringify(finalList)}</div> : null}
     </div>
   );
 };
