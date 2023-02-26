@@ -3,23 +3,11 @@ import { Comparison, defaultComparison, ViewMode } from "../types";
 import Navbar from "../shared/Navbar";
 import getViewMode from "./getViewMode";
 import QuicksortService from "./QuicksortService";
-import EntryPanel from "./EntryPanel";
+import EntryPanel from "./entry/EntryPanel";
 import ComparisonPanel from "./ComparisonPanel";
 import ResultPanel from "./ResultPanel";
 
 const quicksortService = new QuicksortService();
-const originalArray = [
-  "All Quiet on the Western Front",
-  "Avatar: The Way of Water",
-  "The Banshees of Inisherin",
-  "Elvis",
-  "Everything Everywhere All at Once",
-  "The Fabelmans",
-  "Tár",
-  "Top Gun: Maverick",
-  "Triangle of Sadness",
-  "Women Talking",
-];
 
 const QuicksortPage = () => {
   const [initialList, setInitialList] = useState<string[]>([]);
