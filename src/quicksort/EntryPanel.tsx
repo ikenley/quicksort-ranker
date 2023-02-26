@@ -1,6 +1,16 @@
-//type Props = {};
+import { useState } from "react";
 
-const EntryPanel = () => {
+type Props = {
+  setInitialList: React.Dispatch<React.SetStateAction<string[]>>;
+};
+
+const EntryPanel = ({ setInitialList }: Props) => {
+  const [rawText, setRawText] = useState<string>("");
+
+  const handleListInputChange = () => {};
+
+  const handleSubmit = () => {};
+
   return <div className="entry-panel">Coming Soon</div>;
 };
 
