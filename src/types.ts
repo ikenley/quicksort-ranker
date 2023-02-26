@@ -19,3 +19,9 @@ export const defaultComparison: Comparison = {
 export type PromptComparisonType = (
   nextComparison: Comparison
 ) => Promise<-1 | 1>;
+
+export enum ViewMode {
+  Entry,
+  Comparison,
+  Result,
+}
