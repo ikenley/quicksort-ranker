@@ -12,13 +12,13 @@ const originalArray = [
   "All Quiet on the Western Front",
   "Avatar: The Way of Water",
   "The Banshees of Inisherin",
-  //   "Elvis",
-  //   "Everything Everywhere All at Once",
-  //   "The Fabelmans",
-  //   "Tár",
-  //   "Top Gun: Maverick",
-  //   "Triangle of Sadness",
-  //   "Women Talking",
+  "Elvis",
+  "Everything Everywhere All at Once",
+  "The Fabelmans",
+  "Tár",
+  "Top Gun: Maverick",
+  "Triangle of Sadness",
+  "Women Talking",
 ];
 
 const QuicksortPage = () => {
