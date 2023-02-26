@@ -3,25 +3,14 @@ import { Comparison, defaultComparison, ViewMode } from "../types";
 import Navbar from "../shared/Navbar";
 import getViewMode from "./getViewMode";
 import QuicksortService from "./QuicksortService";
-import EntryPanel from "./EntryPanel";
+import EntryPanel from "./entry/EntryPanel";
 import ComparisonPanel from "./ComparisonPanel";
 import ResultPanel from "./ResultPanel";
 
 const quicksortService = new QuicksortService();
-const originalArray = [
-  "All Quiet on the Western Front",
-  "Avatar: The Way of Water",
-  "The Banshees of Inisherin",
-  "Elvis",
-  "Everything Everywhere All at Once",
-  "The Fabelmans",
-  "Tár",
-  "Top Gun: Maverick",
-  "Triangle of Sadness",
-  "Women Talking",
-];
 
 const QuicksortPage = () => {
+  const [initialList, setInitialList] = useState<string[]>([]);
   const [comparison, setComparison] = useState<Comparison>(defaultComparison);
   const resolver = useRef<(value: 1 | -1 | PromiseLike<1 | -1>) => void>();
   const [finalList, setFinalList] = useState<string[]>([]);
@@ -51,17 +40,19 @@ const QuicksortPage = () => {
   }, []);
 
   useEffect(() => {
-    quicksortService.sort(originalArray, promptComparison, complete);
-  }, [promptComparison, complete]);
+    if (initialList && initialList.length) {
+      quicksortService.sort(initialList, promptComparison, complete);
+    }
+  }, [initialList, promptComparison, complete]);
 
-  const viewMode = getViewMode(originalArray, finalList);
+  const viewMode = getViewMode(initialList, finalList);
 
   return (
     <div className="quicksort-page">
       <Navbar />
       <div className="container">
         {viewMode === ViewMode.Entry ? (
-          <EntryPanel />
+          <EntryPanel setInitialList={setInitialList} />
         ) : viewMode === ViewMode.Comparison ? (
           <ComparisonPanel comparison={comparison} handleClick={handleClick} />
         ) : (

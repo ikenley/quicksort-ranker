@@ -19,7 +19,7 @@
     "pretest-ci": "npm run clean",
     "test-ci": "jest --coverage",
     "eject": "react-scripts eject",
-    "clean": "rm -rf dist build"
+    "clean": "rm -rf dist build docs"
   },
   "dependencies": {
     "@testing-library/react": "^13.4.0",
