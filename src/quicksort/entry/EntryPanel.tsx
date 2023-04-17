@@ -1,9 +1,6 @@
 import { useState } from "react";
+import { useQuickDispatch } from "../QuicksortContext";
 import csvToList from "./csvToList";
-
-type Props = {
-  setInitialList: React.Dispatch<React.SetStateAction<string[]>>;
-};
 
 const originalInput = `All Quiet on the Western Front
 Avatar: The Way of Water
@@ -18,7 +15,8 @@ Women Talking`;
 
 const originalList = csvToList(originalInput);
 
-const EntryPanel = ({ setInitialList }: Props) => {
+const EntryPanel = () => {
+  const dispatch = useQuickDispatch();
   const [inputText, setInputText] = useState<string>(originalInput);
   const [list, setList] = useState<string[]>(originalList);
 
@@ -33,7 +31,7 @@ const EntryPanel = ({ setInitialList }: Props) => {
   };
 
   const handleSubmit = () => {
-    setInitialList(list);
+    dispatch({ type: "setInitialList", data: list });
   };
 
   return (

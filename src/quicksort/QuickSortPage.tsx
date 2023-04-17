@@ -1,35 +1,40 @@
-import { useEffect, useState, useCallback, useRef } from "react";
-import { Comparison, defaultComparison, ViewMode } from "../types";
+import { useEffect, useCallback, useRef } from "react";
+import { Comparison, ViewMode } from "../types";
 import Navbar from "../shared/Navbar";
 import getViewMode from "./getViewMode";
 import QuicksortService from "./QuicksortService";
 import EntryPanel from "./entry/EntryPanel";
 import ComparisonPanel from "./ComparisonPanel";
 import ResultPanel from "./ResultPanel";
+import { useQuickState, useQuickDispatch } from "./QuicksortContext";
 
 const quicksortService = new QuicksortService();
 
 const QuicksortPage = () => {
-  const [initialList, setInitialList] = useState<string[]>([]);
-  const [comparison, setComparison] = useState<Comparison>(defaultComparison);
+  const quickState = useQuickState();
+  const { initialList, comparison, finalList } = quickState;
+
+  const dispatch = useQuickDispatch();
+  //const [initialList, setInitialList] = useState<string[]>([]);
+  //const [comparison, setComparison] = useState<Comparison>(defaultComparison);
   const resolver = useRef<(value: 1 | -1 | PromiseLike<1 | -1>) => void>();
-  const [finalList, setFinalList] = useState<string[]>([]);
+  //const [finalList, setFinalList] = useState<string[]>([]);
 
   const promptComparison = useCallback(
     (nextComparison: Comparison) => {
-      setComparison(nextComparison);
+      dispatch({ type: "setComparison", data: nextComparison });
       return new Promise<-1 | 1>((resolve, reject) => {
         resolver.current = resolve;
       });
     },
-    [setComparison]
+    [dispatch]
   );
 
   const complete = useCallback(
     (list: string[]) => {
-      setFinalList(list);
+      dispatch({ type: "setFinalList", data: list });
     },
-    [setFinalList]
+    [dispatch]
   );
 
   const handleClick = useCallback((isLessThanPivot: boolean) => {
@@ -52,7 +57,7 @@ const QuicksortPage = () => {
       <Navbar />
       <div className="container">
         {viewMode === ViewMode.Entry ? (
-          <EntryPanel setInitialList={setInitialList} />
+          <EntryPanel />
         ) : viewMode === ViewMode.Comparison ? (
           <ComparisonPanel comparison={comparison} handleClick={handleClick} />
         ) : (
