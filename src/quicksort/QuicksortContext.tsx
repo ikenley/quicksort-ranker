@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer, useEffect } from "react";
 import { Comparison, defaultComparison } from "../types";
 
 type QuickState = {
@@ -17,13 +17,15 @@ type Action =
   | { type: "setInitialList"; data: string[] }
   | { type: "setComparison"; data: Comparison }
   | { type: "setFinalList"; data: string[] }
+  | { type: "restore"; data: QuickState }
   | { type: "reset" };
 
 type Props = {
   children: React.ReactNode;
 };
 
-function quickReducer(state: QuickState, action: Action): QuickState {
+/** Core reducer logic */
+const getState = (state: QuickState, action: Action): QuickState => {
   switch (action.type) {
     case "setInitialList": {
       return { ...state, initialList: action.data };
@@ -34,6 +36,10 @@ function quickReducer(state: QuickState, action: Action): QuickState {
     case "setFinalList": {
       return { ...state, finalList: action.data };
     }
+
+    case "restore": {
+      return action.data;
+    }
     case "reset": {
       return { ...initialState };
     }
@@ -41,6 +47,21 @@ function quickReducer(state: QuickState, action: Action): QuickState {
       throw Error("Unknown action");
     }
   }
+};
+
+const STORAGE_KEY = "QUICKSORT_STATE";
+
+const saveToLocalStorage = (state: QuickState) => {
+  global.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+};
+
+/** Reducer which centralizes all non-trivial state management */
+function quickReducer(state: QuickState, action: Action): QuickState {
+  const nextState = getState(state, action);
+
+  saveToLocalStorage(nextState);
+
+  return nextState;
 }
 
 const QuickStateContext = createContext<QuickState>(initialState);
@@ -51,6 +72,17 @@ const QuickDispatchContext = createContext<React.Dispatch<Action>>(mockDis);
 
 export function QuickProvider({ children }: Props) {
   const [quickState, dispatch] = useReducer(quickReducer, initialState);
+
+  /** Attempt to fetch */
+  useEffect(() => {
+    const savedStateJson: string | null =
+      global.localStorage.getItem(STORAGE_KEY);
+
+    if (savedStateJson) {
+      const savedState = JSON.parse(savedStateJson);
+      dispatch({ type: "restore", data: savedState });
+    }
+  }, []);
 
   return (
     <QuickStateContext.Provider value={quickState}>

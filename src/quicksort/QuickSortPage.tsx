@@ -15,10 +15,7 @@ const QuicksortPage = () => {
   const { initialList, comparison, finalList } = quickState;
 
   const dispatch = useQuickDispatch();
-  //const [initialList, setInitialList] = useState<string[]>([]);
-  //const [comparison, setComparison] = useState<Comparison>(defaultComparison);
   const resolver = useRef<(value: 1 | -1 | PromiseLike<1 | -1>) => void>();
-  //const [finalList, setFinalList] = useState<string[]>([]);
 
   const promptComparison = useCallback(
     (nextComparison: Comparison) => {
@@ -44,6 +41,13 @@ const QuicksortPage = () => {
     }
   }, []);
 
+  const confirmReset = useCallback(() => {
+    const shouldReset = global.confirm("Are you sure you want to reset?");
+    if (shouldReset) {
+      dispatch({ type: "reset" });
+    }
+  }, [dispatch]);
+
   useEffect(() => {
     if (initialList && initialList.length) {
       quicksortService.sort(initialList, promptComparison, complete);
@@ -63,6 +67,13 @@ const QuicksortPage = () => {
         ) : (
           <ResultPanel finalList={finalList} />
         )}
+        <button
+          type="button"
+          className="btn btn-secondary btn-block mt-5"
+          onClick={confirmReset}
+        >
+          Reset
+        </button>
       </div>
     </div>
   );
