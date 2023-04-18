@@ -43,7 +43,7 @@ const QuicksortPage = () => {
   // If initial list is ready, begin quicksorting
   // "Begin" means to push entire array as first quicksort partition
   useEffect(() => {
-    if (initialList && initialList.length) {
+    if (initialList && initialList.length && partitions === null) {
       dispatch({
         type: "pushPartitions",
         data: [{ low: 0, high: initialList.length - 1 }],
