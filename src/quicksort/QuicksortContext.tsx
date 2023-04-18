@@ -1,23 +1,32 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { Comparison, defaultComparison } from "../types";
 
+type Partition = {
+  low: number;
+  high: number;
+};
+
 type QuickState = {
   initialList: string[];
   comparison: Comparison;
   finalList: string[];
+  partitions: Partition[] | null;
 };
 
 const initialState: QuickState = {
   initialList: [],
   comparison: defaultComparison,
   finalList: [],
+  partitions: null,
 };
 
-type Action =
+export type Action =
   | { type: "setInitialList"; data: string[] }
   | { type: "setComparison"; data: Comparison }
   | { type: "setFinalList"; data: string[] }
   | { type: "restore"; data: QuickState }
+  | { type: "pushPartitions"; data: Partition[] }
+  | { type: "popPartitions" }
   | { type: "reset" };
 
 type Props = {
@@ -36,7 +45,17 @@ const getState = (state: QuickState, action: Action): QuickState => {
     case "setFinalList": {
       return { ...state, finalList: action.data };
     }
-
+    case "pushPartitions": {
+      const prevPartitions = state.partitions || [];
+      const nextPartitions = [...prevPartitions, ...action.data];
+      return { ...state, partitions: nextPartitions };
+    }
+    case "popPartitions": {
+      const prevPartitions = state.partitions || [];
+      const nextPartitions = [...prevPartitions];
+      nextPartitions.pop();
+      return { ...state, partitions: nextPartitions };
+    }
     case "restore": {
       return action.data;
     }

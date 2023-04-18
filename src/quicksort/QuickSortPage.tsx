@@ -12,8 +12,7 @@ const quicksortService = new QuicksortService();
 
 const QuicksortPage = () => {
   const quickState = useQuickState();
-  const { initialList, comparison, finalList } = quickState;
-
+  const { initialList, comparison, finalList, partitions } = quickState;
   const dispatch = useQuickDispatch();
   const resolver = useRef<(value: 1 | -1 | PromiseLike<1 | -1>) => void>();
 
@@ -23,13 +22,6 @@ const QuicksortPage = () => {
       return new Promise<-1 | 1>((resolve, reject) => {
         resolver.current = resolve;
       });
-    },
-    [dispatch]
-  );
-
-  const complete = useCallback(
-    (list: string[]) => {
-      dispatch({ type: "setFinalList", data: list });
     },
     [dispatch]
   );
@@ -48,11 +40,43 @@ const QuicksortPage = () => {
     }
   }, [dispatch]);
 
+  // If initial list is ready, begin quicksorting
+  // "Begin" means to push entire array as first quicksort partition
   useEffect(() => {
     if (initialList && initialList.length) {
-      quicksortService.sort(initialList, promptComparison, complete);
+      dispatch({
+        type: "pushPartitions",
+        data: [{ low: 0, high: initialList.length - 1 }],
+      });
     }
-  }, [initialList, promptComparison, complete]);
+  }, [initialList, dispatch]);
+
+  // Respond to the partitions list changing
+  useEffect(() => {
+    if (partitions !== null) {
+      // If stack still contains partitions, quicksort the next one
+      if (partitions.length > 0) {
+        console.log("state", quickState);
+        const sortPartition = async () => {
+          const partition = partitions[partitions.length - 1];
+          const { low, high } = partition;
+
+          await quicksortService.quicksort(
+            initialList,
+            dispatch,
+            promptComparison,
+            low,
+            high
+          );
+        };
+        sortPartition();
+      }
+      // Else mark as completed
+      else {
+        dispatch({ type: "setFinalList", data: [...initialList] });
+      }
+    }
+  }, [initialList, partitions, promptComparison, dispatch]);
 
   const viewMode = getViewMode(initialList, finalList);
 
