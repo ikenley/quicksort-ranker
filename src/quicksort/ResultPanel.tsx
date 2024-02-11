@@ -1,5 +1,7 @@
+import { Item } from "../types";
+
 type Props = {
-  finalList: string[];
+  finalList: Item[];
 };
 
 const ResultPanel = ({ finalList }: Props) => {
@@ -10,7 +12,7 @@ const ResultPanel = ({ finalList }: Props) => {
       <h2>Rankings</h2>
       <ol>
         {list.map((i) => (
-          <li key={i}>{i}</li>
+          <li key={i.value}>{i.value}</li>
         ))}
       </ol>
     </div>

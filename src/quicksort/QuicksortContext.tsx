@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { Comparison, defaultComparison } from "../types";
+import { Comparison, defaultComparison, Item } from "../types";
 
 type Partition = {
   low: number;
@@ -7,9 +7,9 @@ type Partition = {
 };
 
 type QuickState = {
-  initialList: string[];
+  initialList: Item[];
   comparison: Comparison;
-  finalList: string[];
+  finalList: Item[];
   partitions: Partition[] | null;
 };
 
@@ -21,9 +21,9 @@ const initialState: QuickState = {
 };
 
 export type Action =
-  | { type: "setInitialList"; data: string[] }
+  | { type: "setInitialList"; data: Item[] }
   | { type: "setComparison"; data: Comparison }
-  | { type: "setFinalList"; data: string[] }
+  | { type: "setFinalList"; data: Item[] }
   | { type: "restore"; data: QuickState }
   | { type: "pushPartitions"; data: Partition[] }
   | { type: "popPartitions" }

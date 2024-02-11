@@ -49,14 +49,13 @@ const QuicksortPage = () => {
         data: [{ low: 0, high: initialList.length - 1 }],
       });
     }
-  }, [initialList, dispatch]);
+  }, [initialList, dispatch, partitions]);
 
   // Respond to the partitions list changing
   useEffect(() => {
     if (partitions !== null) {
       // If stack still contains partitions, quicksort the next one
       if (partitions.length > 0) {
-        console.log("state", quickState);
         const sortPartition = async () => {
           const partition = partitions[partitions.length - 1];
           const { low, high } = partition;
@@ -76,7 +75,7 @@ const QuicksortPage = () => {
         dispatch({ type: "setFinalList", data: [...initialList] });
       }
     }
-  }, [initialList, partitions, promptComparison, dispatch]);
+  }, [initialList, partitions, promptComparison, dispatch, quickState]);
 
   const viewMode = getViewMode(initialList, finalList);
 

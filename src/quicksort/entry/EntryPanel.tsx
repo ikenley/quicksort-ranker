@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuickDispatch } from "../QuicksortContext";
 import csvToList from "./csvToList";
+import { Item } from "../../types";
 
 const originalInput = `All Quiet on the Western Front
 Avatar: The Way of Water
@@ -31,7 +32,11 @@ const EntryPanel = () => {
   };
 
   const handleSubmit = () => {
-    dispatch({ type: "setInitialList", data: list });
+    const items = list.map((i) => {
+      const item: Item = { value: i, img: null };
+      return item;
+    });
+    dispatch({ type: "setInitialList", data: items });
   };
 
   return (

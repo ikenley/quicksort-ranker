@@ -1,5 +1,5 @@
 import React from "react";
-import { Comparison, PromptComparisonType } from "../types";
+import { Comparison, PromptComparisonType, Item } from "../types";
 import { Action } from "./QuicksortContext";
 
 /** Service which implements quicksort algorithm.
@@ -18,7 +18,7 @@ export default class QuickSortService {
 
   /** Recursive quicksort */
   public async quicksort(
-    array: string[],
+    array: Item[],
     dispatch: React.Dispatch<Action>,
     promptComparison: PromptComparisonType,
     low: number,
@@ -53,7 +53,7 @@ export default class QuickSortService {
    * The other partition contains elements greater than the pivot.
    */
   private async partition(
-    array: string[],
+    array: Item[],
     promptComparison: PromptComparisonType,
     low: number,
     high: number
@@ -85,13 +85,13 @@ export default class QuickSortService {
   }
 
   /** Randomly selects the pivot and swaps it to first position */
-  private selectPivot(array: string[], low: number, high: number) {
+  private selectPivot(array: Item[], low: number, high: number) {
     const partitionIndex = Math.floor(Math.random() * (high - low + 1) + low);
     this.swap(array, high, partitionIndex);
   }
 
   /* Swap two indexes in an array */
-  private swap(array: string[], x: number, y: number) {
+  private swap(array: Item[], x: number, y: number) {
     const temp = array[x];
     array[x] = array[y];
     array[y] = temp;

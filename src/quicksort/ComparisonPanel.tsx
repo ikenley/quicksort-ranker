@@ -19,7 +19,7 @@ const ComparisonPanel = ({ comparison, handleClick }: Props) => {
               handleClick(false);
             }}
           >
-            {comparison.comparisonValue}
+            {comparison.comparisonValue.value}
           </button>
         </div>
         <div className="my-1 text-center">vs</div>
@@ -31,7 +31,7 @@ const ComparisonPanel = ({ comparison, handleClick }: Props) => {
               handleClick(true);
             }}
           >
-            {comparison.pivotValue}
+            {comparison.pivotValue.value}
           </button>
         </div>
       </div>
