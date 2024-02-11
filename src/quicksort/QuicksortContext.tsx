@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { Comparison, defaultComparison, Item } from "../types";
+import savedLists from "./savedLists";
 
 type Partition = {
   low: number;
@@ -14,7 +15,7 @@ type QuickState = {
 };
 
 const initialState: QuickState = {
-  initialList: [],
+  initialList: savedLists.cocktails,
   comparison: defaultComparison,
   finalList: [],
   partitions: null,
