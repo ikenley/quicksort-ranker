@@ -49,7 +49,7 @@ const QuicksortPage = () => {
         data: [{ low: 0, high: initialList.length - 1 }],
       });
     }
-  }, [initialList, dispatch, partitions]);
+  }, [initialList, dispatch]);
 
   // Respond to the partitions list changing
   useEffect(() => {
@@ -75,7 +75,7 @@ const QuicksortPage = () => {
         dispatch({ type: "setFinalList", data: [...initialList] });
       }
     }
-  }, [initialList, partitions, promptComparison, dispatch, quickState]);
+  }, [initialList, partitions, promptComparison, dispatch]);
 
   const viewMode = getViewMode(initialList, finalList);
 
