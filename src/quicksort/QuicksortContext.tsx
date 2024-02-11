@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
 import { Comparison, defaultComparison, Item } from "../types";
+import getQueryStringParam from "../utils/getQueryStringParam";
 import savedLists from "./savedLists";
 
 type Partition = {
@@ -15,7 +16,7 @@ type QuickState = {
 };
 
 const initialState: QuickState = {
-  initialList: savedLists.cocktails,
+  initialList: [],
   comparison: defaultComparison,
   finalList: [],
   partitions: null,
@@ -93,8 +94,17 @@ const QuickDispatchContext = createContext<React.Dispatch<Action>>(mockDis);
 export function QuickProvider({ children }: Props) {
   const [quickState, dispatch] = useReducer(quickReducer, initialState);
 
-  /** Attempt to fetch */
+  /** Attempt to fetch local storage */
   useEffect(() => {
+    // If query string param for saved list exists, pre-load list
+    const savedListName = getQueryStringParam("list");
+    if (savedListName && savedListName in savedLists) {
+      const list = (savedLists as any)[savedListName];
+      dispatch({ type: "setInitialList", data: list });
+      return;
+    }
+
+    // Else attempt to load localStorage
     const savedStateJson: string | null =
       global.localStorage.getItem(STORAGE_KEY);
 
