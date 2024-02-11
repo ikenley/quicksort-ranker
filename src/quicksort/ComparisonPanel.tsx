@@ -15,7 +15,7 @@ const ComparisonPanel = ({ comparison, handleClick }: Props) => {
   }, [handleClick]);
 
   const handleGreaterThan = useCallback(() => {
-    handleClick(false);
+    handleClick(true);
   }, [handleClick]);
 
   return (
