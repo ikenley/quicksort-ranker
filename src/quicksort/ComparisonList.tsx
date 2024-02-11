@@ -6,24 +6,20 @@ type Props = {
 
 /** Display panel for Comparison */
 const ComparisonList = ({ comparison }: Props) => {
-  const {
-    comparisonValue,
-    pivotValue,
-    array,
-    low,
-    high,
-    pivotIndex,
-  } = comparison;
+  const { comparisonValue, pivotValue, array, low, high, pivotIndex } =
+    comparison;
   return (
     <div className="comparison-list">
       <ul>
         {array.map((item, ix) => (
-          <li key={item}>
-            {item} {ix === low && <code>low</code>}{" "}
+          <li key={item.value}>
+            {item.value} {ix === low && <code>low</code>}{" "}
             {ix === high && <code>high</code>}{" "}
             {ix === pivotIndex && <code>pivotIndex</code>}{" "}
-            {item === comparisonValue && <code>comparisonValue</code>}{" "}
-            {item === pivotValue && <code>pivotValue</code>}
+            {item.value === comparisonValue.value && (
+              <code>comparisonValue</code>
+            )}{" "}
+            {item.value === pivotValue.value && <code>pivotValue</code>}
           </li>
         ))}
       </ul>

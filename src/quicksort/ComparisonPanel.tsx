@@ -1,5 +1,7 @@
+import { useCallback } from "react";
 import { Comparison } from "../types";
 import ComparisonList from "./ComparisonList";
+import HeadToHeadPane from "./HeadToHeadPane";
 
 type Props = {
   comparison: Comparison;
@@ -8,31 +10,28 @@ type Props = {
 
 /** Display panel for Comparison */
 const ComparisonPanel = ({ comparison, handleClick }: Props) => {
+  const handleLessThan = useCallback(() => {
+    handleClick(false);
+  }, [handleClick]);
+
+  const handleGreaterThan = useCallback(() => {
+    handleClick(false);
+  }, [handleClick]);
+
   return (
     <div className="comparison-panel">
-      <div className="head-to-head p-3">
-        <div>
-          <button
-            type="button"
-            className="btn btn-secondary btn-block"
-            onClick={() => {
-              handleClick(false);
-            }}
-          >
-            {comparison.comparisonValue}
-          </button>
+      <div className="head-to-head p-3 row">
+        <div className="col-sm">
+          <HeadToHeadPane
+            item={comparison.comparisonValue}
+            handleClick={handleLessThan}
+          />
         </div>
-        <div className="my-1 text-center">vs</div>
-        <div>
-          <button
-            type="button"
-            className="btn btn-secondary btn-block"
-            onClick={() => {
-              handleClick(true);
-            }}
-          >
-            {comparison.pivotValue}
-          </button>
+        <div className="col-sm">
+          <HeadToHeadPane
+            item={comparison.pivotValue}
+            handleClick={handleGreaterThan}
+          />
         </div>
       </div>
       <hr />

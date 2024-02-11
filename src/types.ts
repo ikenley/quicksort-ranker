@@ -1,15 +1,20 @@
+export type Item = {
+  value: string;
+  img: string | null;
+};
+
 export type Comparison = {
-  comparisonValue: string;
-  pivotValue: string;
-  array: string[];
+  comparisonValue: Item;
+  pivotValue: Item;
+  array: Item[];
   low: number;
   high: number;
   pivotIndex: number;
 };
 
 export const defaultComparison: Comparison = {
-  comparisonValue: "",
-  pivotValue: "",
+  comparisonValue: { value: "", img: null },
+  pivotValue: { value: "", img: null },
   array: [],
   low: 0,
   high: 0,

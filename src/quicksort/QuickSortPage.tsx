@@ -56,7 +56,6 @@ const QuicksortPage = () => {
     if (partitions !== null) {
       // If stack still contains partitions, quicksort the next one
       if (partitions.length > 0) {
-        console.log("state", quickState);
         const sortPartition = async () => {
           const partition = partitions[partitions.length - 1];
           const { low, high } = partition;

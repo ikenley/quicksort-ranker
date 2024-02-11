@@ -1,5 +1,7 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { Comparison, defaultComparison } from "../types";
+import { Comparison, defaultComparison, Item } from "../types";
+import getQueryStringParam from "../utils/getQueryStringParam";
+import savedLists from "./savedLists";
 
 type Partition = {
   low: number;
@@ -7,9 +9,9 @@ type Partition = {
 };
 
 type QuickState = {
-  initialList: string[];
+  initialList: Item[];
   comparison: Comparison;
-  finalList: string[];
+  finalList: Item[];
   partitions: Partition[] | null;
 };
 
@@ -21,9 +23,9 @@ const initialState: QuickState = {
 };
 
 export type Action =
-  | { type: "setInitialList"; data: string[] }
+  | { type: "setInitialList"; data: Item[] }
   | { type: "setComparison"; data: Comparison }
-  | { type: "setFinalList"; data: string[] }
+  | { type: "setFinalList"; data: Item[] }
   | { type: "restore"; data: QuickState }
   | { type: "pushPartitions"; data: Partition[] }
   | { type: "popPartitions" }
@@ -92,8 +94,17 @@ const QuickDispatchContext = createContext<React.Dispatch<Action>>(mockDis);
 export function QuickProvider({ children }: Props) {
   const [quickState, dispatch] = useReducer(quickReducer, initialState);
 
-  /** Attempt to fetch */
+  /** Attempt to fetch local storage */
   useEffect(() => {
+    // If query string param for saved list exists, pre-load list
+    const savedListName = getQueryStringParam("list");
+    if (savedListName && savedListName in savedLists) {
+      const list = (savedLists as any)[savedListName];
+      dispatch({ type: "setInitialList", data: list });
+      return;
+    }
+
+    // Else attempt to load localStorage
     const savedStateJson: string | null =
       global.localStorage.getItem(STORAGE_KEY);
 
