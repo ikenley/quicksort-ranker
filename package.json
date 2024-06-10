@@ -19,13 +19,15 @@
     "pretest-ci": "npm run clean",
     "test-ci": "jest --coverage",
     "eject": "react-scripts eject",
-    "clean": "rm -rf dist build docs"
+    "clean": "rm -rf dist build docs",
+    "cloudfront-hosting-init": "@aws/cloudfront-hosting-toolkit init"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@aws/cloudfront-hosting-toolkit": "^1.1.11",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
