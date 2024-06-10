@@ -3,7 +3,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <a
         className="navbar-brand"
-        href="https://github.com/ikenley/quicksort-ranker"
+        href="https://quicksort.ikenley.com"
         target="_blank"
         rel="noreferrer"
       >
@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="collapse navbar-collapse">
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
-            <a className="nav-link" href="/quicksort-ranker?list=cocktails">
+            <a className="nav-link" href="/?list=cocktails">
               Cocktails
             </a>
           </li>
